@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -9,8 +9,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Identity.Commands\Identity.Commands.csproj" />
+    <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
+    <ProjectReference Include="..\Identity.Dtos\Identity.Dtos.csproj" />
+    <ProjectReference Include="..\Identity.Events\Identity.Events.csproj" />
+    <ProjectReference Include="..\Identity.Infrastructure\Identity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
