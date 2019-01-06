@@ -101,12 +101,15 @@ namespace Identity.Models
         }
 
 
-        public void UpdatePassword(string password, string confirmPassword)
+        public void UpdatePassword(string newPassword, string confirmNewPassword, string oldPassword)
         {
-            if (confirmPassword != password)
+            if (Crypto.getHash(oldPassword + Salt) != Password)
+                throw new BadPasswordException("Old Password is incorrect");
+
+            if (confirmNewPassword != newPassword)
                 throw new ArgumentException("Password and Confirm Password parameters don't match");
 
-            SetSaltAndPassword(password);
+            SetSaltAndPassword(newPassword);
         }
 
 

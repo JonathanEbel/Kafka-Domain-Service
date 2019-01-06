@@ -1,6 +1,8 @@
-﻿using Identity.Domain.Repos;
+﻿using Identity.Domain.CommandHandlers;
+using Identity.Domain.Repos;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Repos;
+using Identity.Service.CommandHandlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +16,7 @@ namespace Identity.Service
     public class Startup
     {
         private string _environmentName = "development";
+        private string _corsPolicy = "ACVPolicy";
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -34,7 +37,7 @@ namespace Identity.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(o => o.AddPolicy("ACVPolicy", builder =>
+            services.AddCors(o => o.AddPolicy(_corsPolicy, builder =>
             {
                 //TODO: for now this works....  Might want to restrict this or off-load the cors to NGINX or something...
                 builder.AllowAnyOrigin()
@@ -57,7 +60,8 @@ namespace Identity.Service
             services.AddEntityFrameworkNpgsql().AddDbContext<IdentityContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
-
+            services.AddTransient<IPasswordResetCommandHandler, PasswordResetCommandHandler>();
+            services.AddTransient<ICreateNewApplicationUserCommandHandler, CreateNewApplicationUserCommandHandler>();
 
         }
 
@@ -82,7 +86,7 @@ namespace Identity.Service
                 app.UseHsts();
             }
 
-            app.UseCors("ACVPolicy");
+            app.UseCors(_corsPolicy);
             app.UseHttpsRedirection();
             app.UseMvc();
         }
