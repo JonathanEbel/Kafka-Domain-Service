@@ -20,6 +20,8 @@ namespace Identity.Service.CommandHandlers
             {
                 user.UpdatePassword(cmd.NewPassword, cmd.NewPasswordConfirm, cmd.OldPassword);
                 _applicationUserRepository.Save();
+
+                //fire event here...
             }
         }
     }
