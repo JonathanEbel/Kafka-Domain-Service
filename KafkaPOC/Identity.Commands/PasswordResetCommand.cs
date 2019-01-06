@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Core;
+using System;
 
 namespace Identity.Commands
 {
-    public class PasswordResetCommand
+    public class PasswordResetCommand : CommandBase
     {
         public Guid ApplicationUserId { get; set; }
         public string OldPassword { get; set; }

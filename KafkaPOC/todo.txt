@@ -1,0 +1,10 @@
+set-up kafka
+fire events
+use reflection to build a list of all events and commands json serialized for each Service
+test this in docker containers with custom config files
+
+build logging service
+build global error handler
+build logging client library which simply puts the log on the bus, but if that fails tries RestSharp but if that fails it writes to a file.
+
+Set up a gateway service with auth offloading

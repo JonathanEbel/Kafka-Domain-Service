@@ -56,12 +56,7 @@ namespace Identity.Service
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //IoC Setup
-            services.AddEntityFrameworkNpgsql().AddDbContext<IdentityContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
-            services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
-            services.AddTransient<IPasswordResetCommandHandler, PasswordResetCommandHandler>();
-            services.AddTransient<ICreateNewApplicationUserCommandHandler, CreateNewApplicationUserCommandHandler>();
+            IoCSetup.CustomSetup(services, Configuration);
 
         }
 
