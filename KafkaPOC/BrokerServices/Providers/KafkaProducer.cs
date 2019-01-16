@@ -18,7 +18,7 @@ namespace BrokerServices.Providers
 
         public async Task<bool> ProduceCommandAsync<T>(T cmd, string topicName) where T : CommandBase
         {
-            string key = typeof(T).FullName + cmd.CommandId.ToString();
+            string key = typeof(T).FullName + cmd.EntityId.ToString();
             string val = JsonConvert.SerializeObject(cmd);
 
             return await Produce(key, val, topicName);
@@ -27,7 +27,7 @@ namespace BrokerServices.Providers
 
         public async Task<bool> ProduceEvent<T>(T ev, string topicName) where T : EventBase
         {
-            string key = typeof(T).FullName + ev.CorrelationId.ToString();
+            string key = typeof(T).FullName + ev.EntityId.ToString();
             string val = JsonConvert.SerializeObject(ev);
 
             return await Produce(key, val, topicName);
