@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 
@@ -6,12 +7,19 @@ namespace BrokerServices.Providers
 {
     public class KafkaConsumer : IMessageConsumer
     {
-        public bool ListenAndConsumeMessage<T>(string groupId, string broker, string topic, Action<T> f)
+        private readonly MessageBrokerConfigSingleton _messageBrokerConfigSingleton;
+
+        public KafkaConsumer(IOptions<MessageBrokerConfigSingleton> messageBrokerConfigSingleton)
+        {
+            _messageBrokerConfigSingleton = messageBrokerConfigSingleton.Value;
+        }
+
+        public bool ListenAndConsumeMessage<T>(string topic, Action<T> f)
         {
             var conf = new ConsumerConfig
             {
-                GroupId = groupId,
-                BootstrapServers = broker,
+                GroupId = _messageBrokerConfigSingleton.GroupId,
+                BootstrapServers = _messageBrokerConfigSingleton.BrokerLocation,
 
                 AutoOffsetReset = AutoOffsetResetType.Earliest
             };

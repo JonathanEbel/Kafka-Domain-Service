@@ -4,6 +4,6 @@ namespace BrokerServices
 {
     public interface IMessageConsumer
     {
-        bool ListenAndConsumeMessage<T>(string groupId, string broker, string topic, Action<T> f);
+        bool ListenAndConsumeMessage<T>(string topic, Action<T> f);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Identity.Domain.CommandHandlers;
+﻿using BrokerServices;
+using BrokerServices.Providers;
+using Identity.Domain.CommandHandlers;
 using Identity.Domain.Repos;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Repos;
@@ -17,10 +19,14 @@ namespace Identity.Service
                 opt.UseNpgsql(configuration.GetConnectionString("IdentityConnection")));
 
             services.Configure<AppSettingsSingleton>(configuration.GetSection("AppSettings"));
-
+            
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddTransient<IPasswordResetCommandHandler, PasswordResetCommandHandler>();
             services.AddTransient<ICreateNewApplicationUserCommandHandler, CreateNewApplicationUserCommandHandler>();
+
+            //current message broker
+            services.Configure<MessageBrokerConfigSingleton>(configuration.GetSection("MessageBrokerSettings"));
+            services.AddTransient<IMessageProducer, KafkaProducer>();
         }
     }
 }
