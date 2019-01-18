@@ -1,4 +1,4 @@
-﻿namespace Identity.Service
+﻿namespace Identity.Common
 {
     public class AppSettingsSingleton
     {

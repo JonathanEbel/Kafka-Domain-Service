@@ -16,6 +16,7 @@
     <ProjectReference Include="..\BrokerServices\BrokerServices.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Identity.Commands\Identity.Commands.csproj" />
+    <ProjectReference Include="..\Identity.Common\Identity.Common.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\Identity.Dtos\Identity.Dtos.csproj" />
     <ProjectReference Include="..\Identity.Events\Identity.Events.csproj" />
