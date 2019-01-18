@@ -5,7 +5,7 @@ namespace BrokerServices
 {
     public interface IMessageProducer
     {
-        Task<bool> ProduceEvent<T>(T ev, string topicName) where T : EventBase;
+        Task<bool> ProduceEventAsync<T>(T ev, string topicName) where T : EventBase;
         Task<bool> ProduceCommandAsync<T>(T cmd, string topicName) where T : CommandBase;
 
     }

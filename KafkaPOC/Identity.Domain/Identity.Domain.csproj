@@ -9,8 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BrokerServices\BrokerServices.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Identity.Commands\Identity.Commands.csproj" />
+    <ProjectReference Include="..\Identity.Events\Identity.Events.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Identity.Commands;
 using Identity.Domain.CommandHandlers;
 using Identity.Dtos;
@@ -42,11 +43,11 @@ namespace Identity.Service.Controllers
 
         [HttpPost]
         [Produces(typeof(NewUserCreatedResponseDto))]
-        public IActionResult CreateNewUser([FromBody]CreateNewApplicationUserCommand cmd)
+        public async Task<IActionResult> CreateNewUser([FromBody]CreateNewApplicationUserCommand cmd)
         {
             try
             {
-                var applicationUser = _createNewApplicationUserCommandHandler.Handle(cmd, _appSettings.UseStrongPassword);
+                var applicationUser = await _createNewApplicationUserCommandHandler.Handle(cmd, _appSettings.UseStrongPassword);
                 return Ok(new NewUserCreatedResponseDto
                 {
                     Active = applicationUser.Active,

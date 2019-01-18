@@ -25,7 +25,7 @@ namespace BrokerServices.Providers
         }
 
 
-        public async Task<bool> ProduceEvent<T>(T ev, string topicName) where T : EventBase
+        public async Task<bool> ProduceEventAsync<T>(T ev, string topicName) where T : EventBase
         {
             string key = typeof(T).FullName + ev.EntityId.ToString();
             string val = JsonConvert.SerializeObject(ev);
@@ -38,7 +38,7 @@ namespace BrokerServices.Providers
         {
             try
             {
-                var config = new ProducerConfig { BootstrapServers = _messageBrokerConfigSingleton.BrokerLocation };
+                var config = new ProducerConfig { BootstrapServers = _messageBrokerConfigSingleton.BrokerLocation, MessageTimeoutMs = 5000, MessageSendMaxRetries = 3 };
 
                 using (var producer = new Producer<string, string>(config))
                 {
