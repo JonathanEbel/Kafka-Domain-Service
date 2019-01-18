@@ -1,10 +1,10 @@
 ﻿using BrokerServices;
 using BrokerServices.Providers;
 using Identity.Domain.CommandHandlers;
+using Identity.Domain.CommandHandlers.Implementations;
 using Identity.Domain.Repos;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Repos;
-using Identity.Service.CommandHandlers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

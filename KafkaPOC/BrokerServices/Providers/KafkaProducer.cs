@@ -47,10 +47,15 @@ namespace BrokerServices.Providers
             }
             catch (Exception ex)
             {
+                if (ex is KafkaException)
+                {
+                    //log that we failed to deliver message...
+                }
+
                 //LOG THIS error and return false...
                 return false;
             }
-
+            
             return true;
         }
 

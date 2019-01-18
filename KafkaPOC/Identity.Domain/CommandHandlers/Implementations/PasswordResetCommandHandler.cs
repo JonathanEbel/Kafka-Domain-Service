@@ -1,32 +1,27 @@
 ﻿using Identity.Commands;
-using Identity.Domain.CommandHandlers;
 using Identity.Domain.Repos;
-using Microsoft.Extensions.Options;
 using System;
 
-namespace Identity.Service.CommandHandlers
+namespace Identity.Domain.CommandHandlers.Implementations
 {
     public class PasswordResetCommandHandler : IPasswordResetCommandHandler
     {
         private readonly IApplicationUserRepository _applicationUserRepository;
-        private readonly AppSettingsSingleton _appSettings;
 
-        public PasswordResetCommandHandler(IApplicationUserRepository applicationUserRepository,
-                                    IOptions<AppSettingsSingleton> appSettings)
+        public PasswordResetCommandHandler(IApplicationUserRepository applicationUserRepository)
         {
             _applicationUserRepository = applicationUserRepository;
-            _appSettings = appSettings.Value;
         }
 
-        public void Handle(PasswordResetCommand cmd)
+        public void Handle(PasswordResetCommand cmd, bool useStrongPassword)
         {
-            if (cmd.CommandId == null) 
+            if (cmd.CommandId == null)
                 cmd.CommandId = Guid.NewGuid();
 
             var user = _applicationUserRepository.GetById(cmd.ApplicationUserId);
             if (user != null)
             {
-                user.UpdatePassword(cmd.NewPassword, cmd.NewPasswordConfirm, cmd.OldPassword, _appSettings.UseStrongPassword);
+                user.UpdatePassword(cmd.NewPassword, cmd.NewPasswordConfirm, cmd.OldPassword, useStrongPassword);
                 _applicationUserRepository.Save();
 
                 //fire event here...

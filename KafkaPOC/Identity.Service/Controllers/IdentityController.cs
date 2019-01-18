@@ -3,6 +3,8 @@ using Identity.Commands;
 using Identity.Domain.CommandHandlers;
 using Identity.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Identity.Service.Controllers
 {
@@ -12,12 +14,15 @@ namespace Identity.Service.Controllers
     {
         private readonly IPasswordResetCommandHandler _passwordResetCommandHandler;
         private readonly ICreateNewApplicationUserCommandHandler _createNewApplicationUserCommandHandler;
+        private readonly AppSettingsSingleton _appSettings;
 
         public IdentityController(IPasswordResetCommandHandler passwordResetCommandHandler, 
-                    ICreateNewApplicationUserCommandHandler createNewApplicationUserCommandHandler)
+                    ICreateNewApplicationUserCommandHandler createNewApplicationUserCommandHandler,
+                    IOptions<AppSettingsSingleton> appSettings)
         {
             _passwordResetCommandHandler = passwordResetCommandHandler;
             _createNewApplicationUserCommandHandler = createNewApplicationUserCommandHandler;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPatch]
@@ -25,7 +30,7 @@ namespace Identity.Service.Controllers
         {
             try
             {
-                _passwordResetCommandHandler.Handle(cmd);
+                _passwordResetCommandHandler.Handle(cmd, _appSettings.UseStrongPassword);
             }
             catch(Exception ex)
             {
@@ -41,7 +46,7 @@ namespace Identity.Service.Controllers
         {
             try
             {
-                var applicationUser = _createNewApplicationUserCommandHandler.Handle(cmd);
+                var applicationUser = _createNewApplicationUserCommandHandler.Handle(cmd, _appSettings.UseStrongPassword);
                 return Ok(new NewUserCreatedResponseDto
                 {
                     Active = applicationUser.Active,
@@ -50,6 +55,8 @@ namespace Identity.Service.Controllers
             }
             catch(Exception ex)
             {
+                if (ex is DbUpdateException)
+                    return BadRequest("That username is already in use.");
                 return BadRequest(ex.Message);
             }
         }

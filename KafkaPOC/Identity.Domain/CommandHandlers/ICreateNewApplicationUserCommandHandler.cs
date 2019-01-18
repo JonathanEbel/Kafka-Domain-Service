@@ -5,6 +5,6 @@ namespace Identity.Domain.CommandHandlers
 {
     public interface ICreateNewApplicationUserCommandHandler
     {
-        ApplicationUser Handle(CreateNewApplicationUserCommand cmd);
+        ApplicationUser Handle(CreateNewApplicationUserCommand cmd, bool useStrongPassword);
     }
 }

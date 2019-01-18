@@ -4,6 +4,6 @@ namespace Identity.Domain.CommandHandlers
 {
     public interface  IPasswordResetCommandHandler
     {
-        void Handle(PasswordResetCommand cmd);
+        void Handle(PasswordResetCommand cmd, bool useStrongPassword);
     }
 }
