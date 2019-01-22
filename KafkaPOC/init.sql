@@ -1,0 +1,2 @@
+CREATE USER acvuser WITH PASSWORD 'password';
+ALTER USER acvuser WITH SUPERUSER;

@@ -12,5 +12,19 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: "127.0.0.1"
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_CREATE_TOPICS: "acv-events:1:1, acv-commands:1:1"
+      KAFKA_CREATE_TOPICS: "acvevents:1:1,acvcommands:1:1"
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+  postgres:
+    image: postgres:9.4
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "80:80"
+      - "5050:5050"
