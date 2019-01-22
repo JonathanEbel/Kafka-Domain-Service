@@ -48,5 +48,10 @@ namespace Identity.Domain.CommandHandlers.Implementations
             return applicationUser;
         }
 
+        public void Dispose()
+        {
+            _applicationUserRepository.Dispose();
+        }
+
     }
 }

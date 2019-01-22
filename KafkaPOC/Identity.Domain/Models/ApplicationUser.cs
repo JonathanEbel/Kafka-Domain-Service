@@ -145,7 +145,10 @@ namespace Identity.Models
 
             //if the user is not locked out, check the password...
             if (Crypto.getHash(password + Salt) == Password)
+            {
+                UpdateLastLogin();
                 return true;
+            }
 
             //user must have wrong password
             reason = "Username and password don't match";

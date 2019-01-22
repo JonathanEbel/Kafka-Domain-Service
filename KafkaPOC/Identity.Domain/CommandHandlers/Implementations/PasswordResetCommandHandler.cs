@@ -18,7 +18,7 @@ namespace Identity.Domain.CommandHandlers.Implementations
             if (cmd.CommandId == null)
                 cmd.CommandId = Guid.NewGuid();
 
-            var user = _applicationUserRepository.GetById(cmd.ApplicationUserId);
+            var user = _applicationUserRepository.Get(cmd.ApplicationUserId);
             if (user != null)
             {
                 user.UpdatePassword(cmd.NewPassword, cmd.NewPasswordConfirm, cmd.OldPassword, useStrongPassword);
@@ -26,6 +26,11 @@ namespace Identity.Domain.CommandHandlers.Implementations
 
                 //fire event here...
             }
+        }
+
+        public void Dispose()
+        {
+            _applicationUserRepository.Dispose();
         }
     }
 }

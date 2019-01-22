@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Projections.Common;
 using System;
 
 namespace Projections.Worker
@@ -14,7 +15,7 @@ namespace Projections.Worker
             IConfigurationRoot configuration = ConfigurationSetup.SetUpConfigs(args[0].Trim());
 
             //set up my IoC container....
-      //      var provider = IocSetup.SetUpContainer(configuration, (args[0].Trim() != "Release"));
+            var provider = IoCSetup.CustomSetup(configuration);
 
         }
     }

@@ -5,14 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BrokerServices\BrokerServices.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Identity.Commands\Identity.Commands.csproj" />
-    <ProjectReference Include="..\Identity.Dtos\Identity.Dtos.csproj" />
     <ProjectReference Include="..\Identity.Events\Identity.Events.csproj" />
   </ItemGroup>
 

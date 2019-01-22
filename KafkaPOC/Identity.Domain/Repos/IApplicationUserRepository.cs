@@ -9,8 +9,8 @@ namespace Identity.Domain.Repos
     {
         PagedResult<ApplicationUser> FindAll(QueryConstraints<ApplicationUser> constraints);
         PagedResult<ApplicationUser> FindByUserName(string text, QueryConstraints<ApplicationUser> constraints);
-        bool UserAuthenticates(string userName, string password, out string reason);
         ApplicationUser Get(string userName);
-        ApplicationUser GetById(Guid id);
+        ApplicationUser GetByIdWithClaims(Guid id);
+        ApplicationUser GetActiveUserByUsername(string userName);
     }
 }

@@ -35,6 +35,7 @@ namespace Identity.Common
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddTransient<IPasswordResetCommandHandler, PasswordResetCommandHandler>();
             services.AddTransient<ICreateNewApplicationUserCommandHandler, CreateNewApplicationUserCommandHandler>();
+            services.AddTransient<ILoginCommandHandler, LoginCommandHandler>();
 
             //current message broker
             services.Configure<MessageBrokerConfigSingleton>(configuration.GetSection("MessageBrokerSettings"));

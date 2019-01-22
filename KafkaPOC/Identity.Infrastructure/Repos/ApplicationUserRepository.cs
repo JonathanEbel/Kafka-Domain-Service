@@ -7,7 +7,7 @@ using Identity.Domain.Repos;
 
 namespace Identity.Infrastructure.Repos
 {
-    public class ApplicationUserRepository : IApplicationUserRepository, IDisposable
+    public class ApplicationUserRepository : IApplicationUserRepository
     {
         private readonly IdentityContext _dbContext;
 
@@ -53,27 +53,14 @@ namespace Identity.Infrastructure.Repos
             return _dbContext.ApplicationUsers.Include(x => x.Claims).Where(x => x.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
         }
 
-        public ApplicationUser GetById(Guid id)
+        public ApplicationUser GetByIdWithClaims(Guid id)
         {
             return _dbContext.ApplicationUsers.Include(x => x.Claims).Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public bool UserAuthenticates(string userName, string password, out string reason)
+        public ApplicationUser GetActiveUserByUsername(string userName)
         {
-            reason = "";
-            var user = _dbContext.ApplicationUsers.Where(x => x.UserName.ToLower() == userName.ToLower() && x.Active == true).FirstOrDefault();
-
-            //this username is no good...
-            if (user == null)
-            {
-                reason = "User doesn't exist in our records";
-                return false;
-            }
-
-            var response = user.Authenticates(password, out reason);
-            Save();
-
-            return response;
+            return _dbContext.ApplicationUsers.Where(x => x.UserName.ToLower() == userName.ToLower() && x.Active == true).FirstOrDefault();
         }
 
         public void Save()
