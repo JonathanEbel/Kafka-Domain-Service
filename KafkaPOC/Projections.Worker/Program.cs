@@ -1,6 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BrokerServices;
+using Microsoft.Extensions.Configuration;
 using Projections.Common;
 using System;
+using Microsoft.Extensions.DependencyInjection;
+using Identity.Events;
+using Microsoft.Extensions.Options;
+using Projections.Domain.EventHandlers;
 
 namespace Projections.Worker
 {
@@ -17,6 +22,12 @@ namespace Projections.Worker
             //set up my IoC container....
             var provider = IoCSetup.CustomSetup(configuration);
 
+            //resolve my dependencies
+            var consumer = provider.GetService<IMessageConsumer>();
+            var brokerSetings = provider.GetService<IOptions<MessageBrokerConfigSingleton>>().Value;
+            var userLoggedInEventHandler = provider.GetService<IHandleUserLoggedInEvent>();
+
+            consumer.ListenAndConsumeMessage<UserLoggedInEvent>(brokerSetings.EventsTopicName, userLoggedInEventHandler.Handle);
         }
     }
 }

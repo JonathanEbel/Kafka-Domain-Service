@@ -12,5 +12,5 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: "127.0.0.1"
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_CREATE_TOPICS: "messages:1:1"
+      KAFKA_CREATE_TOPICS: "acv-events:1:1, acv-commands:1:1"
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"

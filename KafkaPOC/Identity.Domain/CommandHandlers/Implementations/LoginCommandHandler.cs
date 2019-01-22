@@ -44,8 +44,7 @@ namespace Identity.Domain.CommandHandlers.Implementations
                 EntityId = user.Id,
                 UserName = user.UserName,
                 TimeStamp = user.LastLogin
-            },
-            typeof(UserLoggedInEvent).FullName);
+            });
 
             return new LoginCommandResponseDto { LoginSuccess = true, IdentityUserId = user.Id };
         }

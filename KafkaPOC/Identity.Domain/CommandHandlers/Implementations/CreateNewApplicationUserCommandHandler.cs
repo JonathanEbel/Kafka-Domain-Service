@@ -42,8 +42,7 @@ namespace Identity.Domain.CommandHandlers.Implementations
                  Claims = cmd.Roles,
                  DateCreated = applicationUser.DateCreated,
                  UserName = applicationUser.UserName
-            }, 
-            typeof(ApplicationUserCreatedEvent).FullName);
+            });
 
             return applicationUser;
         }

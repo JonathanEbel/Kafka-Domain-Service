@@ -11,6 +11,14 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Projections.Common\Projections.Common.csproj" />
+    <ProjectReference Include="..\Projections.Domain\Projections.Domain.csproj" />
+    <ProjectReference Include="..\Projections.Dtos\Projections.Dtos.csproj" />
+    <ProjectReference Include="..\Projections.Infrastructure\Projections.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

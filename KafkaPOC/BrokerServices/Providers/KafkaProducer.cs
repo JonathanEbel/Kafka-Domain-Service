@@ -16,21 +16,21 @@ namespace BrokerServices.Providers
             _messageBrokerConfigSingleton = messageBrokerConfigSingleton.Value;
         }
 
-        public async Task<bool> ProduceCommandAsync<T>(T cmd, string topicName) where T : CommandBase
+        public async Task<bool> ProduceCommandAsync<T>(T cmd) where T : CommandBase
         {
             string key = typeof(T).FullName + cmd.EntityId.ToString();
             string val = JsonConvert.SerializeObject(cmd);
 
-            return await Produce(key, val, topicName);
+            return await Produce(key, val, _messageBrokerConfigSingleton.CommandsTopicName);
         }
 
 
-        public async Task<bool> ProduceEventAsync<T>(T ev, string topicName) where T : EventBase
+        public async Task<bool> ProduceEventAsync<T>(T ev) where T : EventBase
         {
             string key = typeof(T).FullName + ev.EntityId.ToString();
             string val = JsonConvert.SerializeObject(ev);
 
-            return await Produce(key, val, topicName);
+            return await Produce(key, val, _messageBrokerConfigSingleton.EventsTopicName);
         }
 
 

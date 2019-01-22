@@ -71,7 +71,7 @@ namespace Identity.Service.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [Produces(typeof(IdentityLoginResponseDto))]
         public async Task<IActionResult> Login([FromBody]LoginCommand cmd)
         {
