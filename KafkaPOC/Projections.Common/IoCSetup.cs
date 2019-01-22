@@ -36,7 +36,7 @@ namespace Projections.Common
 
             //current message broker
             services.Configure<MessageBrokerConfigSingleton>(configuration.GetSection("MessageBrokerSettings"));
-            services.AddTransient<IMessageProducer, KafkaProducer>();
+            services.AddTransient<IMessageConsumer, KafkaConsumer>();
 
             return services;
         }
