@@ -27,7 +27,8 @@ namespace BrokerServices.Providers
             using (var c = new Consumer<string, string>(conf))
             {
                 c.Subscribe(topic);
-                bool consuming = true;
+                bool consuming = true;
+
                 c.OnError += (_, e) => consuming = !e.IsFatal;
 
                 while (consuming)
@@ -35,6 +36,7 @@ namespace BrokerServices.Providers
                     try
                     {
                         var cr = c.Consume();
+                        Console.WriteLine("Received Message with Key: " + cr.Key);
                         if (cr.Key.StartsWith(typeof(T).FullName))
                         {
                             f(JsonConvert.DeserializeObject<T>(cr.Value));
