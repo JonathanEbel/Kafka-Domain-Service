@@ -50,6 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 		init.sql = init.sql
 		todo.txt = todo.txt
+		update-databases.sh = update-databases.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerServices", "BrokerServices\BrokerServices.csproj", "{C10EB5ED-4470-424F-A2C1-8C460BEB6C14}"
@@ -60,7 +61,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Common", "Identity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projections.Common", "Projections.Common\Projections.Common.csproj", "{3648633B-4D7E-429A-9202-48A661787F97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projections.Domain", "Projections.Domain\Projections.Domain.csproj", "{2C283DE0-6D65-4B89-BA13-CC7A47288689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projections.Domain", "Projections.Domain\Projections.Domain.csproj", "{2C283DE0-6D65-4B89-BA13-CC7A47288689}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
