@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Organizations.Commands\Organizations.Commands.csproj" />
+    <ProjectReference Include="..\Organizations.Events\Organizations.Events.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CommandHandlers\" />
+    <Folder Include="Repos\" />
+  </ItemGroup>
+
 </Project>
