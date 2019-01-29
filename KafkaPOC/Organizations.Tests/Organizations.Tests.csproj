@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Organizations.Domain\Organizations.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

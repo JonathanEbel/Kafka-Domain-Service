@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Core.CustomExceptions;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Organizations.Domain.Models
 {
@@ -13,9 +15,9 @@ namespace Organizations.Domain.Models
         public Guid? ParentId { get; private set; }
         public List<User> Users { get; private set; }
         public List<Address> Addresses { get; private set; }
-        public List<OrgType> OrgTypes { get; private set; }  //can an org actually be many types??
-        public bool CanSell { get; private set; }
+        public OrgType OrgType { get; private set; } 
         public List<OrganizationContact> Contacts { get; private set; }
+        public bool Verified { get; set; }   //someone has verifed this is a valid org
         public bool Active { get; private set; }
 
         public Organization()
@@ -23,14 +25,20 @@ namespace Organizations.Domain.Models
 
         }
 
-        public Organization(string name, string dbaName, string eIN, Address address, bool canSell, Guid? parentId = null, bool active = false)
+        public Organization(string name, string dbaName, string eIN, Address address, OrgType orgType, Guid? parentId = null, bool active = false, bool verifed = false)
         {
-            Name = string.IsNullOrEmpty(name) ? throw new Exception("Organization name required") : name;
+            Name = string.IsNullOrEmpty(name) ? throw new FormatException("Organization name required") : name;
             DbaName = dbaName;
             SetEIN(eIN);
             Addresses = new List<Address> { address };
-            CanSell = canSell;
             ParentId = parentId;
+            OrgType = orgType;
+
+            if (verifed)
+                MarkVerifed();
+            else
+                MarkNotVerifed();
+
             Active = active;
         }
 
@@ -51,22 +59,40 @@ namespace Organizations.Domain.Models
             EIN = eIN;
         }
 
+        public void AddNewUser(User user)
+        {
+            if (Users == null)
+                Users = new List<User>();
+
+            if (!Users.Contains(user))
+                Users.Add(user);
+        }
+
         public void AddAddress(Address address)
         {
             if (Addresses == null)
                 Addresses = new List<Address>();
 
-            //do a check to see if all rules are followed..  for example: Address types - at most one legal
+            //do a check here to see if all rules are followed..  for example: Address types - at most one legal
             Addresses.Add(address);
         }
 
-        public void AddSubOrg(Organization organization)
+        public void AddSubOrg(Organization subOrg)
         {
-            //check to make sure that the org doesn't already exist in the list and add
+            //check to make sure that the org doesn't already exist in the list and add here
+
+            subOrg.SetParentId(this.ID);
             if (SubOrgs == null)
-                SubOrgs = new List<Organization> { organization };
-            else if (!SubOrgs.Contains(organization))
-                SubOrgs.Add(organization);
+                SubOrgs = new List<Organization> { subOrg };
+            else if (!SubOrgs.Select(x => x.ID).ToList().Contains(subOrg.ID))
+                SubOrgs.Add(subOrg);
+        }
+
+        public void UnlinkSubOrg(Organization subOrg)
+        {
+            subOrg.RemoveParentId();
+            if (SubOrgs != null)
+                SubOrgs.Remove(subOrg);
         }
 
         public void AddOrganizationContact(OrganizationContact contact)
@@ -89,7 +115,31 @@ namespace Organizations.Domain.Models
 
         public void MakeActive()
         {
-            Active = true;
+            if (Verified)
+                Active = true;
+            else
+                throw new UnverifiedOrganizationException("This Organization cannot be made active until it is verified.");
         }
+
+        public void MarkVerifed()
+        {
+            Verified = true;
+        }
+
+        public void MarkNotVerifed()
+        {
+            Verified = false;
+        }
+
+        private void SetParentId(Guid parentOrgId)
+        {
+            ParentId = parentOrgId;
+        }
+
+        private void RemoveParentId()
+        {
+            ParentId = null;
+        }
+
     }
 }

@@ -10,9 +10,4 @@
     <ProjectReference Include="..\Organizations.Events\Organizations.Events.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CommandHandlers\" />
-    <Folder Include="Repos\" />
-  </ItemGroup>
-
 </Project>

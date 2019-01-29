@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Organizations.Domain.CommandHandlers;
+using Organizations.Domain.CommandHandlers.Implementations;
+using Organizations.Domain.Repos;
 using Organizations.Infrastructure;
+using Organizations.Infrastructure.Repos;
 
 namespace Organizations.Common
 {
@@ -23,7 +27,13 @@ namespace Organizations.Common
         {
             services.AddEntityFrameworkNpgsql().AddDbContext<OrganizationsContext>(opt =>
                 opt.UseNpgsql(configuration.GetConnectionString("OrganizationsConnection")));
-            
+
+            services.AddTransient<IStateProvinceRepository, StateProvinceRepository>();
+            services.AddTransient<IOrgTypeRepository, OrgTypeRepository>();
+            services.AddTransient<IOrganizationRepository, OrganizationRepository>();
+
+            services.AddTransient<IAddOrganizationCommandHandler, AddOrganizationCommandHandler>();
+
             return services;
         }
     }

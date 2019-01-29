@@ -1,7 +1,6 @@
-use reflection to build a list of all events and commands json serialized for each Service
-test this in docker containers with custom config files
+use reflection to build a list of all events and commands json schema serialized for each Service
 
-build logging service
+build logging service -> maybe put logs in cassandra?
 build global error handler
 build logging client library which simply puts the log on the bus, but if that fails tries RestSharp but if that fails it writes to a file.
 

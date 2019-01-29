@@ -18,7 +18,7 @@ namespace BrokerServices.Providers
 
         public async Task<bool> ProduceCommandAsync<T>(T cmd) where T : CommandBase
         {
-            string key = typeof(T).FullName + cmd.EntityId.ToString();
+            string key = typeof(T).FullName;
             string val = JsonConvert.SerializeObject(cmd);
 
             return await Produce(key, val, _messageBrokerConfigSingleton.CommandsTopicName);

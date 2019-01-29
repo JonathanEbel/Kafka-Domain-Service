@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Core.Validation;
 
 namespace Organizations.Domain.Models
@@ -12,8 +11,8 @@ namespace Organizations.Domain.Models
         public string Email { get; private set; }
         public string PhoneNumber { get; private set; }
         public DateTime DateJoined { get; private set; }
- //       public List<OrgRole> OrgRoles { get; private set; }
-        public List<Address> Addresses { get; private set; }
+        public Organization Organization { get; private set; }
+//        public List<OrgRole> OrgRoles { get; private set; }  //this would be like admin, rep, etc...
         public bool Active { get; private set; }
 
         public User()
