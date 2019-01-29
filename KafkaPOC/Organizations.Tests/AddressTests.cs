@@ -14,7 +14,7 @@ namespace Organizations.Tests
         }
 
         [Fact]
-        public void AddresTypeValidationWorks()
+        public void AddressTypeValidationWorks()
         {
             //the below has a fake AddressType...
             Assert.Throws<FormatException>(() => new Address("123 Sesame Street", "", "Buffalo", new StateProvince("NY", "USA"), "14217", "fake"));  
