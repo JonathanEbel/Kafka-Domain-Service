@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Core.CustomExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Organizations.Commands;
@@ -20,12 +21,12 @@ namespace Organizations.Service.Controllers
 
         [HttpPost]
         [Produces(typeof(NewOrgResultDto))]
-        public IActionResult CreateOrg([FromBody] AddOrganizationCommand cmd)
+        public async Task<IActionResult> CreateOrg([FromBody] AddOrganizationCommand cmd)
         {
-            Guid? newOrgId = null;
             try
             {
-                newOrgId = _addOrganizationCommandHandler.HandleCommand(cmd);
+                var newOrgId = await _addOrganizationCommandHandler.HandleCommand(cmd);
+                return Ok(new NewOrgResultDto { OrganizationID = (Guid)newOrgId });
             }
             catch(Exception ex)
             {
@@ -34,8 +35,7 @@ namespace Organizations.Service.Controllers
                 //TODO: log what happened here...
                 return BadRequest("There was an error.");
             }
-
-            return Ok(new NewOrgResultDto { OrganizationID = (Guid)newOrgId });
+            
         }
 
     }

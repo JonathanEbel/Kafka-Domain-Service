@@ -1,7 +1,13 @@
-﻿using Organizations.Commands;
+﻿using BrokerServices;
+using Organizations.Commands;
 using Organizations.Domain.Models;
 using Organizations.Domain.Repos;
+using Organizations.Dtos;
+using Organizations.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Organizations.Domain.CommandHandlers.Implementations
 {
@@ -10,16 +16,18 @@ namespace Organizations.Domain.CommandHandlers.Implementations
         private readonly IStateProvinceRepository _stateProvinceRepository;
         private readonly IOrgTypeRepository _orgTypeRepository;
         private readonly IOrganizationRepository _organizationRepository;
+        private readonly IMessageProducer _messageProducer;
 
         public AddOrganizationCommandHandler(IStateProvinceRepository stateProvinceRepository, IOrgTypeRepository orgTypeRepository,
-                                    IOrganizationRepository organizationRepository)
+                                    IOrganizationRepository organizationRepository, IMessageProducer messageProducer)
         {
             _stateProvinceRepository = stateProvinceRepository;
             _orgTypeRepository = orgTypeRepository;
             _organizationRepository = organizationRepository;
+            _messageProducer = messageProducer;
         }
 
-        public Guid HandleCommand(AddOrganizationCommand cmd)
+        public async Task<Guid> HandleCommand(AddOrganizationCommand cmd)
         {
             //lookup the StateProvince
             var state = _stateProvinceRepository.Get(cmd.StateProvinceId);
@@ -38,7 +46,47 @@ namespace Organizations.Domain.CommandHandlers.Implementations
             _organizationRepository.Add(org);
             _organizationRepository.Save();
 
+            //fire event here
+            await FireOrgAddedEvent(org, cmd);
+
             return org.ID;
+        }
+
+
+        private async Task<bool> FireOrgAddedEvent(Organization org, AddOrganizationCommand cmd)
+        {
+            var addressDtos = new List<AddressDto>();
+            addressDtos.AddRange(org.Addresses.Select(x => new AddressDto
+            {
+                Address1 = x.Address1,
+                Address2 = x.Address2,
+                City = x.City,
+                ID = x.ID,
+                PostalCode = x.PostalCode,
+                StateProvince = x.AddressStateProvince.Name,
+                TypeOfAddress = x.TypeOfAddress
+            }));
+            await _messageProducer.ProduceEventAsync<OrganizationCreatedEvent>(new OrganizationCreatedEvent
+            {
+                CorrelationId = (cmd.CommandId == null) ? Guid.NewGuid() : (Guid)cmd.CommandId,
+                EntityId = org.ID,
+                Active = org.Active,
+                Addresses = addressDtos,
+                DbaName = org.DbaName,
+                EIN = org.EIN,
+                Name = org.Name,
+                OrgType = new OrgTypeDto {
+                    CanSell = org.OrgType.CanSell,
+                    Description = org.OrgType.Description,
+                    ID = org.OrgType.ID,
+                    Name = org.OrgType.Name
+                },
+                ParentId = org.ParentId,
+                TimeStamp = org.Created,
+                Verified = org.Verified
+            });
+
+            return true;
         }
     }
 }

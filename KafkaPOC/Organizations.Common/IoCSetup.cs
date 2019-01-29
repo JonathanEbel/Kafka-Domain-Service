@@ -31,8 +31,10 @@ namespace Organizations.Common
             services.AddTransient<IStateProvinceRepository, StateProvinceRepository>();
             services.AddTransient<IOrgTypeRepository, OrgTypeRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddTransient<IAddOrganizationCommandHandler, AddOrganizationCommandHandler>();
+            services.AddTransient<ICreateNewUserCommandHandler, CreateNewUserCommandHandler>();
 
             return services;
         }

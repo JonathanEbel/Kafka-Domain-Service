@@ -17,8 +17,9 @@ namespace Organizations.Domain.Models
         public List<Address> Addresses { get; private set; }
         public OrgType OrgType { get; private set; } 
         public List<OrganizationContact> Contacts { get; private set; }
-        public bool Verified { get; set; }   //someone has verifed this is a valid org
+        public bool Verified { get; private set; }   //someone has verifed this is a valid org
         public bool Active { get; private set; }
+        public DateTime Created { get; private set; }
 
         public Organization()
         {
@@ -39,6 +40,7 @@ namespace Organizations.Domain.Models
             else
                 MarkNotVerifed();
 
+            Created = DateTime.UtcNow;
             Active = active;
         }
 
@@ -59,13 +61,17 @@ namespace Organizations.Domain.Models
             EIN = eIN;
         }
 
-        public void AddNewUser(User user)
+        public User AddNewUser(string firstName, string lastName, string email, string phoneNumber, Guid identityId, DateTime? dateJoined = null, bool active = false)
         {
+            var user = new User(firstName, lastName, email, phoneNumber, identityId, dateJoined, active);
+
             if (Users == null)
                 Users = new List<User>();
 
             if (!Users.Contains(user))
                 Users.Add(user);
+
+            return user;
         }
 
         public void AddAddress(Address address)

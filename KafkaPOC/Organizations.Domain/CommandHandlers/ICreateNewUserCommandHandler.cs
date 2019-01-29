@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Organizations.Domain.CommandHandlers
 {
-    public interface IAddOrganizationCommandHandler
+    public interface ICreateNewUserCommandHandler
     {
-        Task<Guid> HandleCommand(AddOrganizationCommand cmd);
+        Task<Guid> HandleCommand(CreateNewUserCommand cmd);
     }
 }

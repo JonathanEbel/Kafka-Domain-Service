@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BrokerServices\BrokerServices.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Organizations.Commands\Organizations.Commands.csproj" />
     <ProjectReference Include="..\Organizations.Events\Organizations.Events.csproj" />

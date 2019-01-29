@@ -12,6 +12,7 @@ namespace Organizations.Domain.Models
         public string PhoneNumber { get; private set; }
         public DateTime DateJoined { get; private set; }
         public Organization Organization { get; private set; }
+        public Guid IdentityId { get; private set; }
 //        public List<OrgRole> OrgRoles { get; private set; }  //this would be like admin, rep, etc...
         public bool Active { get; private set; }
 
@@ -20,7 +21,7 @@ namespace Organizations.Domain.Models
 
         }
 
-        public User(string firstName, string lastName, string email, string phoneNumber, DateTime? dateJoined = null, bool active = false)
+        public User(string firstName, string lastName, string email, string phoneNumber, Guid identityId, DateTime? dateJoined = null, bool active = false)
         {
             FirstName = string.IsNullOrEmpty(firstName) ? throw new FormatException("First name is required") : firstName;
             LastName = string.IsNullOrEmpty(LastName) ? throw new FormatException("Last name is required") : lastName;
@@ -28,6 +29,7 @@ namespace Organizations.Domain.Models
             DateJoined = dateJoined == null ? DateTime.UtcNow : (DateTime)dateJoined;
             Active = active;
             PhoneNumber = phoneNumber;
+            IdentityId = identityId;
         }
 
         public void SetEmailAddress(string email)
